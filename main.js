@@ -15,7 +15,7 @@ canvas.classList.add('shadow')
 
 const ctx = canvas.getContext('2d');
 var xd = pantalla.width / 2;
-var yd = 20;
+var yd = 40;
 var moviminetox = 5, moviminetoy = 5;
 var pelota = 20;
 
@@ -39,9 +39,23 @@ function juego() {
 
     barraFrame(barra);
 
-    if (yd < pelota || yd > pantalla.height - pelota) {
+    if (yd < pelota ) {
         moviminetoy = -moviminetoy;
     }
+
+    if( yd > 460 - pelota && xd > barraX && xd <= barraX + barra.width){
+
+        moviminetoy = -moviminetoy
+    }
+    else if( yd > pantalla.height - pelota){
+
+        
+        textFrame('game over',120, 250)
+        document.location.reload()
+        moviminetoy = -moviminetoy
+    
+    }
+
     if (xd < pelota || xd > pantalla.width - pelota) {
         moviminetox = -moviminetox
     }
@@ -76,6 +90,16 @@ document.addEventListener('keydown', e => {
        arrowLeft = true
     }
 })
+
+function textFrame(msj,x,y){
+    ctx.font = '100px arial'
+    ctx.beginPath()
+    ctx.fillText(msj,x,y)
+    ctx.closePath()
+
+    console.log(x,y)
+}
+
 
 function barraFrame(json) {
     const altura = 460;
