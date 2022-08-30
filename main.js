@@ -14,20 +14,18 @@ canvas.height = pantalla.height;
 canvas.classList.add('shadow')
 
 const ctx = canvas.getContext('2d');
-var xd = pantalla.width / 2;
-var yd = 40;
-var moviminetox = 5, moviminetoy = 5;
+var ball_X = pantalla.width / 2;
+var ball_Y = 400;
+var moviminetox = 5, moviminetoy = -5;
 var pelota = 20;
 
 // barra 
 let barra = {
     width: 90,
-    height: 10,
+    height: 5,
     position: pantalla.width / 2
 }
-
 var barraX = barra.position - (90 / 2);
-
 var arrowLeft = false;
 var arrowRight = false;
 
@@ -35,28 +33,31 @@ function juego() {
     let barraSpeed = 7;
     refresFrame(ctx, pantalla);
 
-    circulo(ctx, pelota, xd, yd);
+    circulo(ctx, pelota, ball_X, ball_Y);
 
     barraFrame(barra);
 
-    if (yd < pelota ) {
+    if (ball_Y < pelota ) {
         moviminetoy = -moviminetoy;
     }
 
-    if( yd > 460 - pelota && xd > barraX && xd <= barraX + barra.width){
+    if( ball_Y >= 459 - pelota && !(ball_Y + pelota > 460) && ball_X > barraX && ball_X <= barraX + barra.width){
 
         moviminetoy = -moviminetoy
+
+        moviminetox = aleat(-6,6);
     }
-    else if( yd > pantalla.height - pelota){
+    else if( ball_Y > pantalla.height - pelota){
 
         
         textFrame('game over',120, 250)
+
         document.location.reload()
         moviminetoy = -moviminetoy
     
     }
 
-    if (xd < pelota || xd > pantalla.width - pelota) {
+    if (ball_X < pelota || ball_X > pantalla.width - pelota) {
         moviminetox = -moviminetox
     }
 
@@ -70,8 +71,8 @@ function juego() {
     }
 
     //console.log(yd)
-    xd += moviminetox
-    yd += moviminetoy
+    ball_X += moviminetox
+    ball_Y += moviminetoy
 }
 
 document.addEventListener('keyup', e => {
@@ -83,10 +84,10 @@ document.addEventListener('keyup', e => {
     }
 })
 document.addEventListener('keydown', e => {
-    if(e.key == 'ArrowRight' && xd < pantalla.width - pelota){
+    if(e.key == 'ArrowRight' && ball_X < pantalla.width - pelota){
         arrowRight = true
     }
-    if(e.key == 'ArrowLeft' && xd > pelota){
+    if(e.key == 'ArrowLeft' && ball_X > pelota){
        arrowLeft = true
     }
 })
@@ -124,4 +125,10 @@ function refresFrame(contex, pa) {
 
     contex.clearRect(0, 0, pa.width, pa.height)
 }
-setInterval(juego, 15);
+
+function aleat (max,min){
+    return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+
+//setInterval(juego, 10);
