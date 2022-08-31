@@ -27,8 +27,16 @@ nav {
     display: flex;
 }
 
-.left-nav li,.right-nav li {
+.left-nav li a,.right-nav li a {
+    display: inline-block;
     padding: 30px;
+    border-radius: 5px;
+}
+
+.left-nav li a:hover,.right-nav li a:hover{
+    background: rgba(255,255,255,0.9);
+    color: black;
+    transition: .5s;
 }
 
 main {
